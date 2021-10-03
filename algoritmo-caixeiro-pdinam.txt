@@ -1,0 +1,91 @@
+Algoritmo "carteiro-pdinamic"
+// Disciplina  : Analise e Sintese de Algoritmos
+// Professora  : Artemisa Moreno
+// Descrição   : Dado um conjunto de sacos de e os seus respectivos pesos, 
+//  				bem como o limite de carga, calcular o máximo peso 
+// Autor(a)    : Simao Moreno
+// Data atual  : 31/07/2020
+
+
+variaveis globais:
+	dp <- [][]
+
+
+maxPeso (Array):
+
+	capac <- 0
+	para cada peso em Array faca:
+		capac += peso
+
+	escreva(capac)
+
+
+
+imprimaSubconjRec (Array, i, capac, Pesos):
+	
+	se i = 0 e capac != 0 e dp[0][capac] = verdadeiro entao:
+		adicionar Array[i] ao Pesos
+		maxPeso(Pesos)
+		esvaziar Pesos
+		retornar
+	
+	senao se i = 0 e capac = 0 entao:
+		maxPeso(Pesos)
+		esvaziar Pesos
+		retornar
+
+	se dp[i-1][capac] = verdadeiro entao:
+		B <- []
+		B <- Pesos
+		imprimaSubconjRec(Array, i-1, capac, B)
+
+	senao se capac >= Array[i] e dp[i-1][capac-array[i]] entao:
+		adicionar Array[i] ao Pesos
+		imprimaSubconjRec(Array, i-1, capac-Array[i], Pesos)
+
+
+
+imprimirTodosSubconj (Pesos, n_sacos, capac):
+
+	dp <- []
+
+	para i de 0 ate n passo 1 faca:
+		dp[i][0] <- verdadeiro
+	
+	se Pesos[0] = capac
+		dp[0][Pesos[0] <- verdadeiro
+
+	para i de 0 ate n_sacos passo 1 faca:
+		para j de 0 ate capac + 1 passo 1 faca:
+			se Pesos[i] <= j entao:
+				dp[i][j] <- dp[i-1][j] ou dp[i-1][j-Pesos[i]]
+			senao:
+				dp[i][j] <- dp[i-1][j]
+
+	se dp[n_sacos][capac] = falso entao:
+		imprimirTodosSubconj(Pesos, n_sacos, capac-1)
+		retornar
+
+	P <- []
+	imprimaSubconjRec(Pesos, n_sacos-1, capac, P)
+
+
+
+
+main:
+	
+	Pesos <- []
+
+	repita :
+		leia (s, c)
+	enquanto ((s < 1 ou s > 5000) e (c < 1 ou c > 10000))
+
+	para i de 0 ate n passo 1 faca :
+		leia(Pesos[i])
+		se Pesos[i] < 1 ou Pesos[i] > 500 entao:
+			decrementar i 	
+
+	imprimirTodosSubconj(Pesos, s, c)
+
+
+// fim do algoritmo

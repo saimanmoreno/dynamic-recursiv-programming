@@ -1,0 +1,53 @@
+Algoritmo "carteiro-recursiv"
+// Disciplina  : Analise e Sintese de Algoritmos
+// Professora  : Artemisa Moreno
+// Descrição   : Dado um conjunto de sacos de e os seus respectivos pesos, 
+//  				bem como o limite de carga, calcular o máximo peso 
+// Autor(a)    : Simao Moreno
+// Data atual  : 31/07/2020
+
+
+encontrarCapacidMax (A, somat, index, sum, Carrinha):
+	
+	capac <- 0
+
+	se somat = sum entao:
+		para i de 0 ate tamanho da Carrinha passo 1 faca:
+			se Carrinha[i] = 1 entao:
+				capac += A[i]
+
+		escreva(capac)
+		encerrar programa
+
+	senao se index = tamanho de A entao :
+		// fazer nada
+
+	senao: 
+		Carrinha[index] <- 1 	// verdadeiro
+		somat += A[index]	// incluir um peso no somatorio
+		encontrarCapacidMax(A, somat, index+1, sum, Carrinha)
+		
+		somat -= A[index]	// retirar esse peso do somatorio
+		Carrinha[index] <- 0 	// falso
+		encontrarCapacidMax(A, somat, index+1, sum, Carrinha)
+
+
+main:
+	
+	Pesos <- []
+	Carinha <- []
+
+	repita :
+		leia (s, c)
+	enquanto ((s < 1 ou s > 5000) e (c < 1 ou c > 10000))
+
+	para i de 0 ate n passo 1 faca :
+		leia(Pesos[i])
+		se Pesos[i] < 1 ou Pesos[i] > 500 entao:
+			decrementar i 	
+
+	faca infinitivamente:
+		encontraCapacMax(Pesos, 0, 0, c--, Carrinha)
+
+
+// fim do algoritmo
